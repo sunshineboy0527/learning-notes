@@ -32,6 +32,15 @@
 
 ### Tomcat部署
 
+> - 关于Tomcat服务器的目录
+>   - bin ： 这个目录是Tomcat服务器的命令文件存放的目录，比如：启动Tomcat，关闭Tomcat等。
+>   - conf： 这个目录是Tomcat服务器的配置文件存放目录。（server.xml文件中可以配置端口号，默认Tomcat端口是8080）
+>   - lib ：这个目录是Tomcat服务器的核心程序目录，因为Tomcat服务器是Java语言编写的，这里的jar包里面都是class文件。
+>   - logs: Tomcat服务器的日志目录，Tomcat服务器启动等信息都会在这个目录下生成日志文件。
+>   - temp：Tomcat服务器的临时目录。存储临时文件。
+>   - webapps：这个目录当中就是用来存放大量的webapp（web application：web应用）
+>   - work：这个目录是用来存放JSP文件翻译之后的java文件以及编译之后的class文件。
+
 1. 直接将项目放到`webapps`目录下即可。
     * `/hello`：项目的访问路径-->虚拟目录
     > 简化部署：将项目打成一个`war`包，再将`war`包放置到`webapps`目录下。
