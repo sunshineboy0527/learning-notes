@@ -1,4 +1,4 @@
-JavaScript：
+# JavaScript：
 * 概念：一门客户端脚本语言
 	* 运行在客户端浏览器中的。每一个浏览器都有JavaScript的解析引擎
 	* 脚本语言：不需要编译，直接就可以被浏览器解析执行了
@@ -443,3 +443,338 @@ div.innerHTML = "<a>超链接</a>"; //在aiv元素中添加 <a>超链接</a>
 7. 表单事件：
     - `onsubmit`	确认按钮被点击。
     - `onreset`	重置按钮被点击。
+
+---
+
+## 变量声明
+
+在 JavaScript 中，变量声明主要有以下 5 种方式，每种方式都有不同的作用域和特性：
+
+---
+
+### 1. **`var`** (ES5 及之前)
+
+-   **作用域**：函数作用域（function scope）
+
+-   **变量提升**：会提升到函数顶部
+
+-   **可重复声明**：允许
+
+-   **全局属性**：会成为 `window` 对象的属性
+
+-   **示例**：
+
+    ```javascript
+    var x \= 10;
+    if (true) {
+      var x \= 20; // 同一个变量
+    }
+    console.log(x); // 20
+    ```
+
+### 2. **`let`** (ES6+)
+
+-   **作用域**：块级作用域（block scope，如 `{}` 内）
+
+-   **变量提升**：存在暂时性死区（TDZ），不会实际提升
+
+-   **可重复声明**：不允许
+
+-   **全局属性**：不会成为 `window` 的属性
+
+-   **示例**：
+
+    ```javascript
+    let y \= 10;
+    if (true) {
+      let y \= 20; // 不同的变量
+    }
+    console.log(y); // 10
+    ```
+
+### 3. **`const`** (ES6+)
+
+-   **作用域**：块级作用域
+
+-   **变量提升**：存在暂时性死区
+
+-   **可重复声明**：不允许
+
+-   **必须初始化**：声明时必须赋值
+
+-   **不可重新赋值**：基本类型不可变，但对象/数组内容可修改
+
+-   **示例**：
+
+    ```javascript
+    const z \= 10;
+    // z = 20; // 报错
+
+    const obj \= { a: 1 };
+    obj.a \= 2; // 允许
+    ```
+
+### 4. **隐式声明**（不推荐）
+
+-   直接赋值未声明的变量：
+
+    ```javascript
+    a \= 30; // 自动成为全局变量（严格模式下报错）
+    ```
+
+### 5. **`function` 声明**
+
+-   **作用域**：函数作用域
+
+-   **变量提升**：整个函数会被提升
+
+-   **示例**：
+
+    ```javascript
+    console.log(foo()); // "Hello"（函数被提升）
+    function foo() {
+      return "Hello";
+    }
+    ```
+
+---
+
+### 对比表格
+
+| 特性 | `var` | `let` | `const` | 隐式声明 | `function` |
+| --- |  --- |  --- |  --- |  --- |  --- |
+| **作用域** | 函数作用域 | 块级作用域 | 块级作用域 | 全局 | 函数作用域 |
+| --- |  --- |  --- |  --- |  --- |  --- |
+| **提升** | 完全提升 | 不提升（TDZ） | 不提升（TDZ） | \- | 完全提升 |
+| **重复声明** | 允许 | 不允许 | 不允许 | \- | 允许 |
+| **全局属性** | 是 | 否 | 否 | 是 | 是 |
+| **是否需要初始化** | 否 | 否 | 是 | \- | \- |
+| **可重新赋值** | 是 | 是 | 否 | 是 | 是 |
+
+---
+
+### 推荐使用
+
+1.  **默认使用 `const`**：除非需要重新赋值
+
+2.  **需要重新赋值时用 `let`**：替代 `var`
+
+3.  **避免使用 `var`**：除非需要兼容旧代码
+
+4.  **禁用隐式声明**：严格模式下会报错（`'use strict'`）
+
+5.  **函数表达式优先**：用 `const foo = function() {}` 替代 `function foo() {}` 可避免提升
+
+---
+
+# jQuery库
+
+> 需要引入jQuery库 `https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js`
+>
+> 查找相关开源库可以在(https://www.bootcdn.cn/)搜索
+
+> 体积大，除了能处理Ajax还能简化js其他操作
+
+jQuery 是一个快速、简洁的 JavaScript 库，简化了 DOM 操作、事件处理、动画和 Ajax 交互。以下是 jQuery 的常用操作总结：
+
+* * * *
+
+## 1\. DOM 操作
+
+### **选择元素**
+
+```javascript
+// 基本选择器
+$("#id")          // ID 选择器
+$(".class")       // Class 选择器
+$("div")          // 标签选择器
+$("div.class")    // 组合选择器
+
+// 层级选择器
+$("parent > child")  // 直接子元素
+$("ancestor descendant")  // 所有后代
+
+// 过滤选择器
+$("li:first")     // 第一个元素
+$("li:last")      // 最后一个元素
+$("li:even")      // 偶数索引元素
+$("li:odd")       // 奇数索引元素
+$("li:eq(2)")     // 第 3 个元素（索引从 0 开始）
+$("li:gt(2)")     // 索引大于 2 的元素
+$("li:lt(2)")     // 索引小于 2 的元素
+```
+
+### **修改内容**
+
+```javascript
+$("#el").html("<b>新内容</b>")  // 设置 HTML
+$("#el").text("纯文本")        // 设置文本
+$("#el").val("input值")       // 设置表单值
+
+// 获取内容
+let html = $("#el").html()
+let text = $("#el").text()
+let value = $("#el").val()
+```
+
+### **修改属性**
+
+```javascript
+$("#el").attr("href", "https://example.com")  // 设置属性
+let href = $("#el").attr("href")             // 获取属性
+
+$("#el").removeAttr("disabled")              // 移除属性
+
+// data-\* 属性
+$("#el").data("key", "value")                // 设置 data-key
+let data = $("#el").data("key")              // 获取 data-key
+```
+
+### **修改 CSS 和样式**
+
+```javascript
+$("#el").css("color", "red")                 // 设置单个样式
+$("#el").css({ "color": "red", "font-size": "16px" })  // 设置多个样式
+
+$("#el").addClass("active")                  // 添加类
+$("#el").removeClass("active")               // 移除类
+$("#el").toggleClass("active")               // 切换类
+```
+
+### **DOM 遍历**
+
+```javascript
+$("#el").parent()           // 直接父元素
+$("#el").parents("div")     // 所有匹配的祖先元素
+$("#el").children()         // 直接子元素
+$("#el").find(".item")      // 所有匹配的后代元素
+$("#el").siblings()         // 所有兄弟元素
+$("#el").next()             // 下一个兄弟元素
+$("#el").prev()             // 上一个兄弟元素
+```
+
+### **DOM 增删改**
+
+```javascript
+// 插入元素
+$("#el").append("<p>追加内容</p>")      // 内部末尾
+$("#el").prepend("<p>前置内容</p>")     // 内部开头
+$("#el").after("<p>之后插入</p>")       // 外部之后
+$("#el").before("<p>之前插入</p>")      // 外部之前
+
+// 移除元素
+$("#el").remove()           // 删除元素及其事件
+$("#el").empty()            // 清空子元素
+```
+
+* * * *
+
+## 2\. 事件处理
+
+### **绑定事件**
+
+```javascript
+$("#btn").click(function() {
+    alert("点击事件");
+});
+
+// 常用事件
+$("#el").on("click", handler)   // 推荐（支持动态元素）
+$("#el").click(handler)        // 简写
+$("#el").hover(handlerIn, handlerOut)  // 鼠标悬停
+$("#el").submit(handler)       // 表单提交
+$("#el").keypress(handler)     // 键盘按下
+
+// 事件委托（适用于动态元素）
+$("#parent").on("click", ".child", handler)
+```
+
+### **解绑事件**
+
+```javascript
+$("#el").off("click")      // 移除所有点击事件
+$("#el").off("click", handler)  // 移除特定处理函数
+```
+
+### **触发事件**
+
+```javascript
+$("#el").click()          // 手动触发点击
+$("#el").trigger("click") // 推荐方式
+```
+
+* * * *
+
+## 3\. Ajax 请求
+
+```javascript
+// GET 请求
+$.get("url", { key: "value" }, function(data) {
+    console.log(data);
+});
+
+// POST 请求
+$.post("url", { key: "value" }, function(data) {
+    console.log(data);
+});
+
+// 完整 Ajax
+$.ajax({
+    url: "api/data",
+    method: "GET",
+    data: { id: 1 },
+    success: function(data) {
+        console.log(data);
+    },
+    error: function(err) {
+        console.error(err);
+    }
+});
+```
+
+* * * *
+
+## 4\. 动画效果
+
+```javascript
+$("#el").hide()          // 隐藏
+$("#el").show()          // 显示
+$("#el").toggle()        // 切换显示/隐藏
+
+// 滑动效果
+$("#el").slideUp()
+$("#el").slideDown()
+$("#el").slideToggle()
+
+// 淡入淡出
+$("#el").fadeIn()
+$("#el").fadeOut()
+$("#el").fadeToggle()
+
+// 自定义动画
+$("#el").animate({
+    opacity: 0.5,
+    left: "+=50px"
+}, 1000);
+```
+
+* * * *
+
+## 5\. 实用工具
+
+```javascript
+// 遍历元素
+$("li").each(function(index) {
+    console.log(index, $(this).text());
+});
+
+// 检查元素是否存在
+if ($("#el").length) {
+    console.log("元素存在");
+}
+
+// 延迟执行
+setTimeout(function() {
+    $("body").css("background", "red");
+}, 1000);
+```

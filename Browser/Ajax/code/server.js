@@ -19,7 +19,9 @@ app.get('/server', (request, response) => {
 app.post('/server', (request, response) => {
     //设置响应头  设置允许跨域
     response.setHeader('Access-Control-Allow-Origin', '*');
-    //设置响应体
+    //响应头 运行自定义响应头
+    //（但是页面还会继续发送一个OPTION请求，来校验该请求是否可用）
+    //因此接收请求方法可以使用all()接收任意类型的请求 
     response.send('HELLO AJAX - POST');
 });
 
