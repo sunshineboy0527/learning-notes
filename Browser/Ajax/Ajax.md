@@ -87,7 +87,7 @@ fetch('https://api.example.com/data')
   .catch(error => console.error(error));
 ```
 
-### 3. **jQuery 封装（简化版）**
+#### 3. **jQuery 封装（简化版）**
 
 ```javascript
 $.ajax({
@@ -102,7 +102,7 @@ $.ajax({
 });
 ```
 
-### 4. **axios实现**
+#### 4. **axios实现**
 
 **Axios** 是一个基于 Promise 的现代化 **HTTP 客户端**，用于浏览器和 Node.js 环境。它主要用于发送 **AJAX 请求**（如 GET、POST、PUT、DELETE 等），并提供了许多强大的功能，如 **请求/响应拦截、自动转换 JSON 数据、取消请求、并发请求** 等。
 
@@ -805,3 +805,56 @@ app.all('/cors-server', (request, response) => {
 });
 
 ```
+
+### AJAX跨域解决方案
+
+#### 方案1：设置响应头
+
+- 核心原理：跨域访问的资源允许你跨域访问。
+
+- 实现：
+
+   ```java
+    response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080"); // 允许某个
+    response.setHeader("Access-Control-Allow-Origin", "*"); // 允许所有
+    ```
+
+#### 方案2：jsonp
+
+- jsonp：json with padding（带填充的json【学完之后再理解这个什么意思！！！】）
+- jsonp不是一个真正的ajax请求。只不过可以完成ajax的局部刷新效果。可以说jsonp是一种类ajax请求的机制。
+- jsonp不是ajax请求，但是可以完成局部刷新的效果，并且可以解决跨域问题。
+- 注意：jsonp解决跨域的时候，只支持GET请求。不支持post请求。
+
+#### 方案3：jQuery封装的jsonp
+
+- 牛人们写的jQuery库，已经对jsonp进行了封装。大家可以直接拿来用。
+
+- 用之前需要引入jQuery库的js文件。（这里的jQuery库咱们就不再封装了，咱们直接用jQuery写好的jsonp方式。）
+
+- jQuery中的jsonp其实就是我们方案2的高度封装，底层原理完全相同。
+
+- 核心代码
+
+  ```javascript
+    $.ajax({
+        type : "GET",
+        url : "跨域的url",
+        dataType : "jsonp", // 指定数据类型
+        jsonp : "fun", // 指定参数名（不设置的时候，默认是："callback"）
+        jsonpCallback : "sayHello" // 指定回调函数的名字
+    							   // （不设置的时候，jQuery会自动生成一个随机的回调函数，
+        						   //并且这个回调函数还会自动调用success的回调函数。）
+    })
+    ```
+
+    
+
+#### 方案4：代理机制（httpclient）
+
+- 使用Java程序怎么去发送get/post请求呢？【GET和POST请求就是HTTP请求。】
+  - 第一种方案：使用JDK内置的API（java.net.URL.....），这些API是可以发送HTTP请求的。
+  - 第二种方案：使用第三方的开源组件，比如：apache的httpclient组件。（httpclient组件是开源免费的，可以直接用）
+- 在java程序中，使用httpclient组件可以发送http请求。
+  - 对于httpclient组件的代码，大家目前可以不进行深入的研究，可以从网上直接搜。然后粘贴过来，改一改，看看能不能完成发送get和post请求。
+  - 使用httpclient组件，需要先将这个组件相关的jar包引入到项目当中。
