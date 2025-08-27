@@ -20,7 +20,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	}
 
 	protected void render(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 这个方法的作用是将 逻辑视图名称 转换成 物理视图名称 ，并且最终返回视图对象View
+		// 这个方法的作用是将 逻辑视图名称 转换成 物理视图名称 ，并且最终返回视图对象View 
 		View view = resolveViewName(viewName, mv.getModelInternal(), locale, request);
 
 		// 真正的将模板字符串转换成HTML代码，并且将HTML代码响应给浏览器。（真正的渲染。）
